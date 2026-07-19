@@ -1,21 +1,34 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { addItem } from './CartSlice'; // Đảm bảo đường dẫn đúng
 
 function ProductList() {
-  const products = [
-    { id: 1, name: 'Fern', price: '$20' },
-    { id: 2, name: 'Cactus', price: '$15' }
+  const dispatch = useDispatch();
+  
+  const plantsArray = [
+    { category: "Indoor", name: "Snake Plant", price: 20, thumbnail: "snake_plant.jpg" },
+    { category: "Indoor", name: "Spider Plant", price: 15, thumbnail: "spider_plant.jpg" },
+    // ... thêm đủ 6 cây mỗi loại
   ];
+
+  const handleAddToCart = (plant) => {
+    dispatch(addItem(plant));
+  };
 
   return (
     <div className="product-list">
-      <h2>Our Plants</h2>
-      {products.map(product => (
-        <div key={product.id} className="product-card">
-          <h3>{product.name}</h3>
-          <p>Price: {product.price}</p>
-          <button>Add to Cart</button>
-        </div>
-      ))}
+      {/* Giả sử bạn nhóm theo category */}
+      <h2>Indoor Plants</h2>
+      <div className="plant-grid">
+        {plantsArray.map((plant, index) => (
+          <div key={index} className="plant-card">
+            <img src={plant.thumbnail} alt={plant.name} style={{width: '100px'}} />
+            <h3>{plant.name}</h3>
+            <p>${plant.price}</p>
+            <button onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
